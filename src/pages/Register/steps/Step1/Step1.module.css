@@ -1,0 +1,17 @@
+.button {
+  margin-top: 20px;
+}
+
+.login {
+  margin-top: 10px !important;
+  margin-left: 10px;
+}
+
+.login a {
+  font-weight: 600;
+  transition: .2s color;
+}
+
+.login a:hover {
+  color: #B086FA;
+}

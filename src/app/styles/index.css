@@ -1,7 +1,19 @@
 @import "fonts.css";
+@import "vars.css";
+
+* {
+  color: var(--text-color);
+  font-family: var(--font);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  outline: none;
+  margin: 0;
+  box-sizing: border-box;
+}
 
 body {
-  margin: 0;
+  background: #121212;
   font-family: 'SF Pro Display',SF Pro Icons,Helvetica Neue,Helvetica,Arial,sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -10,4 +22,49 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
   monospace;
+}
+
+input:not([type=checkbox]):not([type=radio]), textarea, select, ::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield !important;
+}
+
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+p,h1,h2,h3,h4,h5,h6,form {
+  transition: .2s all;
+}
+
+img, svg, textarea {
+  vertical-align: top;
+}
+
+iframe {
+  vertical-align: bottom;
+}
+
+input {
+  font-family: var(--font);
+}
+
+hr, button {
+  border: none;
 }

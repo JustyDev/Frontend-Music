@@ -1,0 +1,11 @@
+:root {
+  --font: 'Proxima Nova', sans-serif;
+  --text-color: #f4f4f4;
+  --error-color: #d24545;
+  --text-secondary: #c4c4c4;
+
+  --block-background: #121212;
+  --input-background: #151515;
+  --input-border: #181818;
+  --input-placeholder: #7c7c7c;
+}

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-function App() {
+const App = () => {
 
   const [ isPaused, setIsPaused ] = useState(false)
   const [ dataWS, setDataWS ] = useState(false)

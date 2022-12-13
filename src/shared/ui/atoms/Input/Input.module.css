@@ -1,0 +1,89 @@
+.overlay {
+    position: relative;
+}
+
+.loader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(21, 21, 21, 0.1);
+}
+
+.errorBottom {
+    color: #000;
+    font-size: 13px;
+}
+
+.wrapper {
+    border-radius: 15px;
+    background: var(--input-background);
+    border: 2px solid var(--input-border);
+    /*color: var(--input-color);*/
+    width: 100%;
+}
+
+.wrapper > label {
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+.input {
+    font-size: 20px !important;
+    flex: 1 0 auto;
+    padding: 14px 20px;
+    min-width: 100px;
+    border: none;
+    background: transparent;
+    /*color: var(--input-color);*/
+    border-radius: 12px;
+    font-weight: 600;
+}
+
+.input:focus::placeholder {
+    opacity: .7;
+}
+
+.input::placeholder {
+    font-weight: 400;
+    color: var(--input-placeholder);
+}
+
+.tooltip {
+    margin-top: 5px;
+    font-size: 12px;
+    margin-left: 7px;
+    color: var(--text-secondary);
+}
+
+.tooltip.error {
+    color: var(--error-color);
+}
+
+.wrapperContent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 0 0 40px;
+}
+
+.view {
+    display: flex;
+    justify-content: center;
+    width: 53px;
+    height: 53px;
+    align-items: center;
+    cursor: pointer;
+}
+
+.view:hover svg {
+    fill: #7c7c7c;
+}
+
+.view svg {
+    width: 23px;
+    height: 23px;
+    fill: #6b6b6b;
+    transition: all .2s ease-in-out;
+}
