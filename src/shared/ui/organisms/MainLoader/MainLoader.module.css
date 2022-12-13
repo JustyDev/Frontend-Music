@@ -1,0 +1,25 @@
+.container {
+  background-image: linear-gradient( 135deg, #201a26 5%, #121212 90%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+}
+
+.block{
+  background: var(--block-background);
+  border-radius: 50%;
+  padding: 35px;
+}
+
+.block img {
+  height: 50px;
+  width: 50px;
+}

@@ -5,11 +5,21 @@ import { useState } from 'react'
 import { Input } from 'shared/ui/atoms/Input'
 import { BigButton } from 'shared/ui/atoms/BigButton'
 import { Link } from 'react-router-dom'
+import { useEvent, useStore } from 'effector-react'
+import { loginFx } from 'features/auth/store'
 
 export const Login = () => {
 
   const [ phone, setPhone ] = useState('+7 ')
   const [ password, setPassword ] = useState('')
+
+  const loginRequest = useEvent(loginFx)
+  const pending = useStore(loginFx.pending)
+
+  const login = () => loginRequest({
+    phone: phone,
+    password: password
+  })
 
   return (
     <div className={s.container}>
@@ -24,32 +34,33 @@ export const Login = () => {
           <p>С возвращением, введите данные для входа в аккаунт, что бы продолжить</p>
 
           <InputPhone
-            // disabled={pending}
             focusOnMount={true}
             value={phone}
             setValue={setPhone}
+            disabled={pending}
             // error={st1?.error ? (st1.error?.message) : false}
           />
 
           <Input
+            disabled={pending}
             defaultViewState={false}
             value={password}
             onChange={e => setPassword(e.target.value)}
             classNameOverlay={s.inp}
-            placeholder='Введите ваш пароль'
-            type='password'
+            placeholder="Введите ваш пароль"
+            type="password"
           />
 
           <BigButton
-            className={s.button}
-            onClick={() => null}
-            disabled={phone.length !== 18 || !password}
-            disabledText='Заполните все поля'
+            loading={pending}
+            onClick={login}
+            disabled={phone.length !== 18 || !password || password.length < 8}
+            disabledText="Заполните все поля"
           >
-            Продолжить
+            Войти в аккаунт
           </BigButton>
 
-          <p className={s.register}>Впервые у нас? <Link to='/register'>Зарегистрироваться</Link></p>
+          <p className={s.register}>Впервые у нас? <Link to="/register">Зарегистрироваться</Link></p>
 
 
         </form>

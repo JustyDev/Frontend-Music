@@ -1,7 +1,7 @@
 import { createEffect, createStore } from 'effector'
 import { requester } from 'shared/lib/requester'
 
-export const getCodeFx = createEffect(async number => {
+export const getCodeFx = createEffect(async (number) => {
   const req = await requester('auth.registerCode', {
     number: number
   })
