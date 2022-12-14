@@ -24,7 +24,7 @@ code {
   monospace;
 }
 
-input:not([type=checkbox]):not([type=radio]), textarea, select, ::-webkit-slider-thumb {
+input:not([type=checkbox]):not([type=radio]):not([type=range]), textarea, select, ::-webkit-slider-thumb {
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;

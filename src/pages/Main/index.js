@@ -1,7 +1,7 @@
 export const Main = () => {
   return (
     <div>
-      <h1>Hello</h1>
+      <h1>На частоте наслаждения</h1>
     </div>
   )
 }

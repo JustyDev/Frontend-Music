@@ -1,7 +1,9 @@
 import { NavLink, Outlet } from 'react-router-dom'
 
 import s from './Main.module.css'
-import { Home } from '../../assets'
+import { Home, Note, Playlist, Search, Magic, Star, Collections } from '../../assets'
+import { Profile } from '../../molecules/Profile'
+import { Player } from '../../organisms/Player'
 
 export const Main = () => {
 
@@ -12,21 +14,20 @@ export const Main = () => {
       <div className={s.overlay}>
         <nav className={s.nav}>
           <h2>Justy Music</h2>
-          <NavLink exact className={actClassName} to="/"><Home /> Главная</NavLink>
-          <NavLink className={actClassName} to="/library">Медиатека</NavLink>
-          <NavLink className={actClassName} to="/search">Поиск</NavLink>
-          <NavLink className={actClassName} to="/search">Новинки</NavLink>
-          <NavLink className={actClassName} to="/search">Популярное</NavLink>
-          <NavLink className={actClassName} to="/search">Плейлисты</NavLink>
-          <NavLink className={actClassName} to="/search">Жанры</NavLink>
+          <NavLink exact='true' className={actClassName} to="/"><Home /> Главная</NavLink>
+          <NavLink className={actClassName} to="/library"><Note /> Медиатека</NavLink>
+          <NavLink className={actClassName} to="/search"><Search /> Поиск</NavLink>
+          <NavLink className={actClassName} to="/search"><Star /> Новинки</NavLink>
+          <NavLink className={actClassName} to="/search"><Magic /> Популярное</NavLink>
+          <NavLink className={actClassName} to="/search"><Playlist /> Плейлисты</NavLink>
+          <NavLink className={actClassName} to="/search"><Collections /> Жанры</NavLink>
         </nav>
-        <main>
+        <main className={s.main}>
+          <Profile />
           <Outlet/>
         </main>
       </div>
-      <div className={s.player}>
-
-      </div>
+      <Player />
     </div>
   )
 }
