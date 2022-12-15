@@ -4,8 +4,11 @@ import s from './Main.module.css'
 import { Home, Note, Playlist, Search, Magic, Star, Collections } from '../../assets'
 import { Profile } from '../../molecules/Profile'
 import { Player } from '../../organisms/Player'
+import { useAuth } from '../../../hooks/useAuth'
 
 export const Main = () => {
+
+  const session = useAuth()
 
   const actClassName = ({isActive}) => isActive ? (s.active + ' ' + s.link) : s.link
 
@@ -23,7 +26,7 @@ export const Main = () => {
           <NavLink className={actClassName} to="/search"><Collections /> Жанры</NavLink>
         </nav>
         <main className={s.main}>
-          <Profile />
+          <Profile session={session} />
           <Outlet/>
         </main>
       </div>

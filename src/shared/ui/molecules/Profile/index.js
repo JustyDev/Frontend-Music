@@ -1,48 +1,29 @@
 import s from './Profile.module.css'
-import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Logout, Note } from '../../assets'
+import { Logout, Note, Settings } from '../../assets'
+import { useHoveredTooltip } from '../../../hooks/useHoveredTooltip'
+import { useEvent } from 'effector-react'
+import { logoutFx } from '../../../../features/auth/store'
 
-export const Profile = () => {
+export const Profile = ({session}) => {
 
-  const [ active, setActive ] = useState(false)
-  const [ addClasses, setAddClasses ] = useState('')
+  const { active, onOpen, onClose, classes } = useHoveredTooltip(s.enterToAnimation)
 
-  let timeout
-
-  const closeTooltip = () => {
-    timeout = setTimeout(() => {
-      setActive(false)
-      setAddClasses('')
-    }, 100)
-  }
-
-  const openTooltip = () => {
-    clearTimeout(timeout)
-    setActive(true)
-  }
-
-  useEffect(() => {
-    if (active) {
-      setTimeout(() => {
-        setAddClasses(s.enterToAnimation)
-      }, 10)
-    }
-  }, [ active ])
+  const logout = useEvent(logoutFx)
 
   return (
     <div className={s.profile}>
       <div
-        onMouseEnter={openTooltip}
-        onMouseLeave={closeTooltip}
+        onMouseEnter={onOpen}
+        onMouseLeave={onClose}
         className={s.avatar}
         style={{ backgroundImage: 'url(https://avatars.mds.yandex.net/get-yapic/43978/st1zOZWFa43FcvUWt6Diqk1yznM-1/islands-200)' }}
       />
 
       <div
-        onMouseEnter={openTooltip}
-        onMouseLeave={closeTooltip}
-        className={s.accountMenu + ' ' + (active ? (s.enterAnimation + ' ' + addClasses) : '')}
+        onMouseEnter={onOpen}
+        onMouseLeave={onClose}
+        className={s.accountMenu + ' ' + (active ? (s.enterAnimation + ' ' + classes) : '')}
         style={{ display: (active ? 'block' : 'none') }}
       >
         <div className={s.contentAccountMenu}>
@@ -53,12 +34,13 @@ export const Profile = () => {
             />
             <div>
               <h3 className={s.username}>Dmitry Sidorov</h3>
-              <p className={s.number}>+7 (920) 085 39-75</p>
+              <p className={s.number}>{session.number}</p>
             </div>
           </div>
 
           <Link to='/library' className={s.link}><Note /> Медиатека</Link>
-          <p className={s.link + ' ' + s.logout}><Logout /> Выйти</p>
+          <Link to='/settings' className={s.link}><Settings /> Настройки</Link>
+          <p className={s.link + ' ' + s.logout} onClick={logout}><Logout /> Выйти</p>
         </div>
       </div>
     </div>

@@ -6,7 +6,6 @@ import { useEffect } from 'react'
 export const Auth = () => {
 
   const session = useStore($session)
-
   const navigate = useNavigate()
 
   useEffect(() => {

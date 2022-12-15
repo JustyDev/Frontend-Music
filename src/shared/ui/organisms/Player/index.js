@@ -1,7 +1,10 @@
 import s from './Player.module.css'
 import { useEffect, useRef, useState } from 'react'
-import { Play, Pause } from '../../assets'
+import { Play, Pause, Speaker } from '../../assets'
 import { useDidUpdate } from '../../../hooks/useDidUpdate'
+import { Line } from './ui/Line'
+import { createEqFilters } from '../../../lib/createEqFilters'
+import { useHoveredTooltip } from '../../../hooks/useHoveredTooltip'
 
 export const Player = () => {
 
@@ -11,41 +14,18 @@ export const Player = () => {
 
   const audioRef = useRef(new Audio(src))
 
-  const createFilters = (context) => {
-    let frequencies = [ 60, 170, 310, 600, 1000, 3000, 6000, 12000, 14000, 16000 ],
-      filters = frequencies.map((frequency) => {
-        let filter = context.createBiquadFilter()
-
-        filter.type = 'peaking' // тип фильтра
-        filter.frequency.value = frequency // частота
-        filter.Q.value = 1 // Q-factor
-        filter.gain.value = 0
-
-        return filter
-      })
-
-    filters.reduce(function (prev, curr) {
-      prev.connect(curr)
-      return curr
-    })
-
-    return filters
-  }
-
-  const [ time, setTime ] = useState(0)
-
   useEffect(() => {
-    const interval = setInterval(() => {
-      setTime(audioRef.current.currentTime)
-    }, 100)
-    return () => clearInterval(interval)
+    audioRef.current.addEventListener('ended', () => {
+      audioRef.current.currentTime = 0
+      setIsPlaying(false)
+    })
   }, [])
 
   useEffect(() => {
     if (context && filters.length === 0) {
       const source = context.createMediaElementSource(audioRef.current)
 
-      const eq = createFilters(context)
+      const eq = createEqFilters(context)
       source.connect(eq[0])
       eq[eq.length - 1].connect(context.destination)
 
@@ -55,24 +35,45 @@ export const Player = () => {
 
   const [ isPlaying, setIsPlaying ] = useState(false)
 
-  const toTime = (t) => {
-    if (t === 0) return '0:00'
-    let min = Math.floor(t / 60) ?? '0'
-    let sec = Math.round(t % 60) ?? '00'
-    if (sec < 10) {
-      sec = '0' + sec
-    }
-    return min + ':' + sec
-  }
-
   useDidUpdate(() => {
     if (!isPlaying) {
-      audioRef.current.pause()
+
+      new Promise((resolve) => {
+        const interval = setInterval(() => {
+          if (audioRef.current.volume <= 0) {
+            clearInterval(interval)
+            resolve()
+          } else {
+            audioRef.current.volume = Math.floor((audioRef.current.volume - 0.01) * 100) / 100
+          }
+        }, 3)
+      }).then(() => audioRef.current.pause())
+
     } else {
       if (!context) setContext(new AudioContext())
-      audioRef.current.play()
+      audioRef.current.volume = 0
+      audioRef.current.currentTime = audioRef.current.currentTime - 0.1
+
+      new Promise((resolve) => {
+        audioRef.current.play().then(() => {
+          const interval = setInterval(() => {
+            if (audioRef.current.volume >= 1) {
+              resolve(interval)
+            } else {
+              audioRef.current.volume = Math.ceil((audioRef.current.volume + 0.01) * 100) / 100
+            }
+          }, 3)
+        })
+      }).then(clearInterval)
     }
   }, [ isPlaying ])
+
+  const { active, onOpen, onClose, classes } = useHoveredTooltip(s.enterToAnimation)
+
+  const [ volume, setVolume ] = useState(1)
+  useEffect(() => {
+    audioRef.current.volume = volume
+  }, [volume])
 
   return (
     <div className={s.player}>
@@ -98,16 +99,37 @@ export const Player = () => {
             </div>
           ) : null}
         </div>
-        <div className={s.line}>
-          <time>{toTime(time)}</time>
-          <div className={s.progress}>
-            <div className={s.progressLoaded} style={{ width: '30%' }}/>
-            <div className={s.progressPlaying} style={{ width: (time / audioRef.current.duration * 100) + '%' }}/>
-          </div>
-          <time>{toTime(audioRef.current.duration)}</time>
-        </div>
+        <Line audio={audioRef.current} />
       </div>
       <div>
+        <div
+          onMouseEnter={onOpen}
+          onMouseLeave={onClose}
+          className={s.volume}
+        >
+          <Speaker />
+        </div>
+
+        <div
+          className={s.volumeTooltip + ' ' + (active ? (s.enterAnimation + ' ' + classes) : '')}
+          style={{ display: (active ? 'block' : 'none') }}
+          onMouseEnter={onOpen}
+          onMouseLeave={onClose}
+        >
+          <div className={s.tooltipContent}>
+            <input
+              style={{backgroundSize: (volume * 100) + '% 100%'}}
+              className={s.volumeRange}
+              type='range'
+              onChange={e => setVolume(Number(e.target.value))}
+              value={volume}
+              min={0}
+              step={0.01}
+              max={1}
+            />
+          </div>
+        </div>
+
         {/*{[...Array(10)].map((_, i) => <input*/}
         {/*  key={i}*/}
         {/*  style={{height: '10px'}}*/}
