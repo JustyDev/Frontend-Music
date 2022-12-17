@@ -1,12 +1,13 @@
 import { Outlet } from 'react-router'
 import { useStore } from 'effector-react'
-import { $session, loginFx } from 'features/auth/store'
+import { $session } from 'features/auth/store'
 
-import { MainLoader } from '../../organisms/MainLoader'
+import { MainLoader } from 'shared/ui/organisms/MainLoader'
+import { initialFx } from 'features/common/store'
 
 export const Clean = () => {
 
-  const loading = useStore(loginFx.pending)
+  const loading = useStore(initialFx.pending)
   const session = useStore($session)
 
   return (

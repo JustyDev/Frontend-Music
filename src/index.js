@@ -4,11 +4,11 @@ import './app/styles/index.css'
 import reportWebVitals from './reportWebVitals'
 import { RouterProvider } from 'react-router'
 import { routes } from './app/Routes'
-import { loginFx } from './features/auth/store'
+import { initialFx } from './features/common/store'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 
-loginFx(false)
+initialFx(undefined).then(r => null)
 
 root.render(
   <RouterProvider router={routes}/>

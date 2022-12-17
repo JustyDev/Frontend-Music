@@ -1,6 +1,6 @@
 import s from './Player.module.css'
 import { useEffect, useRef, useState } from 'react'
-import { Play, Pause, Speaker } from '../../assets'
+import { Play, Pause, Speaker, SpeakerQuietly } from '../../assets'
 import { useDidUpdate } from '../../../hooks/useDidUpdate'
 import { Line } from './ui/Line'
 import { createEqFilters } from '../../../lib/createEqFilters'
@@ -75,6 +75,14 @@ export const Player = () => {
     audioRef.current.volume = volume
   }, [volume])
 
+  const mute = () => {
+    if (volume === 0) {
+      setVolume(1)
+    } else {
+      setVolume(0)
+    }
+  }
+
   return (
     <div className={s.player}>
       <div className={s.info}>
@@ -106,8 +114,9 @@ export const Player = () => {
           onMouseEnter={onOpen}
           onMouseLeave={onClose}
           className={s.volume}
+          onClick={mute}
         >
-          <Speaker />
+          {volume === 0 ? <SpeakerQuietly /> : <Speaker />}
         </div>
 
         <div

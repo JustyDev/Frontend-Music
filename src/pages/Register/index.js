@@ -1,16 +1,16 @@
 import s from './Register.module.css'
 
 import { useStore } from 'effector-react'
-import { $codeData, $putCodeData } from 'features/register/store'
+import { $step } from 'features/register/store'
 import { Step1 } from './steps/Step1'
 import { Step2 } from './steps/Step2'
 import { Step3 } from './steps/Step3'
+import { Step4 } from './steps/Step4'
 import note from '../../shared/ui/assets/png/note.png'
 
 export const Register = () => {
 
-  const st1 = useStore($codeData)
-  const st2 = useStore($putCodeData)
+  const step = useStore($step)
 
   return (
     <div className={s.container}>
@@ -21,7 +21,10 @@ export const Register = () => {
       <div className={s.overlay}>
         <form className={s.block} onSubmit={e => e.preventDefault()}>
           <img src={note} alt={'Note img'}/>
-          {st2?.type === "success" ? <Step3 /> : (st1?.type === "success" ? <Step2 /> : <Step1 />)}
+          {step === 1 ? <Step1 /> : null}
+          {step === 2 ? <Step2 /> : null}
+          {step === 3 ? <Step3 /> : null}
+          {step === 4 ? <Step4 /> : null}
         </form>
       </div>
     </div>

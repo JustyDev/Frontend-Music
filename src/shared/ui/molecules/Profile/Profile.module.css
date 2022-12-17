@@ -67,6 +67,7 @@
   cursor: pointer;
   align-items: center;
   user-select: none;
+  margin-bottom: 3px;
 }
 
 .link:active {
@@ -74,22 +75,26 @@
 }
 
 .link:hover svg {
-  fill: #c5c5c5 !important;
+  fill: #c5c5c5;
 }
 
 .link svg {
-  fill: #888888 !important;
+  fill: #888888;
   height: 15px;
   width: 15px;
   margin-right: 10px;
   transition: .2s all;
 }
 
+.active svg {
+  fill: #7367F0 !important;
+}
+
 .logout:hover svg {
   fill: var(--error-color) !important;
 }
 
-.link:hover {
+.link:hover, .active {
   font-weight: 600;
   background-color: #181818;
   color: #c5c5c5;
